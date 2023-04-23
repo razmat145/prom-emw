@@ -17,6 +17,9 @@ Currently used default labels are:
 - `method` being used
 - `statusCode` being replied
 
+##### Notes:
+- `statusCode`s are normalized by prefix, i.e. 2xx, 4xx, 5xx etc
+
 ### Installing
 
 ```
@@ -69,7 +72,7 @@ For more queries examples, look into PromQL https://prometheus.io/docs/prometheu
 ###### 90 quantile slow request timings
 ![90 quantile slow request timings](./img/90quatileTimings.png)
 
-###### Average request rate over time
+###### Average request timing rate over time
 ![Average request rate over time](./img/averageRequestRateOverTime.png)
 
 ### Configuration
