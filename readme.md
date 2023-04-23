@@ -88,6 +88,17 @@ For more queries examples, look into PromQL https://prometheus.io/docs/prometheu
 
 ![Unauthorized spike](./img/escapingUnauthorized.png)
 
+###### Cpu usage if `collectDefaultMetrics` is true 
+`rate(process_cpu_system_seconds_total[5m])`   
+
+![Cpu Usage](./img/cpuUsage.png)
+
+###### Heap size if `collectDefaultMetrics` is true 
+`nodejs_heap_size_used_bytes`   
+
+![Heap Size](./img/heapSize.png)
+
+
 ### Configuration
 ```typescript
 interface IMWOpts {
@@ -99,6 +110,9 @@ interface IMWOpts {
 
     // Http status codes to be escaped from normalization
     escapeStatusCodes?: Array<number>;
+
+    // If to collect default NodeJS metrics see https://github.com/siimon/prom-client#default-metrics
+    collectDefaultMetrics?: boolean;
 }
 ```
 
