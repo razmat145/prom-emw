@@ -1,6 +1,6 @@
 
 import { Request, Response } from 'express';
-import { Registry, Counter, Histogram } from 'prom-client';
+import { Registry, Counter, Histogram, collectDefaultMetrics } from 'prom-client';
 
 import Extractor from './Extractor';
 import Session from '../util/Session';
@@ -35,6 +35,10 @@ export class Recorder {
             registers: [this.registry]
         });
         this.registry.registerMetric(this.timingHistogram);
+
+        if (Session.getConfigItem('collectDefaultMetrics')) {
+            collectDefaultMetrics({ register: this.registry });
+        }
     }
 
     public recordRequestStats(req: Request, res: Response, startTiming: [number, number]) {

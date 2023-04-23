@@ -5,6 +5,8 @@ export interface IMWOpts {
     appName?: string;
 
     escapeStatusCodes?: Array<number>;
+
+    collectDefaultMetrics?: boolean;
 }
 
 export const defaultMWOpts = {
