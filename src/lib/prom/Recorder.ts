@@ -31,8 +31,7 @@ export class Recorder {
         this.timingHistogram = new Histogram({
             name: this.attachBucketPrefix(this.timingHistogramSuffix, appName),
             help: 'Request timing in seconds',
-            labelNames: defaultLabels,
-            registers: [this.registry]
+            labelNames: defaultLabels
         });
         this.registry.registerMetric(this.timingHistogram);
 
