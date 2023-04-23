@@ -1,6 +1,8 @@
 
 import { Request, Response } from 'express';
 
+import Session from '../util/Session';
+
 import { IDefaultLabels } from '../types/Label';
 
 
@@ -29,9 +31,15 @@ class Extractor {
     }
 
     private extractBaseStatus(statusCode: number): string {
-        const base = statusCode.toString()[0];
+        const escapedCodes = Session.getConfigItem('escapeStatusCodes');
 
-        return `${base}xx`;
+        if (escapedCodes.includes(statusCode)) {
+            return `${statusCode}`;
+        } else {
+            const base = statusCode.toString()[0];
+
+            return `${base}xx`;
+        }
     }
 
 }

@@ -75,6 +75,9 @@ For more queries examples, look into PromQL https://prometheus.io/docs/prometheu
 ###### Average request timing rate over time
 ![Average request rate over time](./img/averageRequestRateOverTime.png)
 
+###### Noticing the Unauthorized spike via escaping 401 status codes  `escapeStatusCodes: [401]`
+![Noticing the Unauthorized spike](./img/escapingUnauthorized.png)
+
 ### Configuration
 ```typescript
 interface IMWOpts {
@@ -83,11 +86,15 @@ interface IMWOpts {
 
     // App name to be appended to Prom metric type names
     appName?: string; // defaults to ''
+
+    // Http status codes to be escaped from normalization
+    escapeStatusCodes?: Array<number>;
 }
 ```
 
 ### TODOs
 - more config flexibility and options
+- normalize parametered paths
 - more tests
 - pm2 cluster support
 - custom metrics

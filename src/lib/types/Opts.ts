@@ -10,5 +10,7 @@ export interface IMWOpts {
 export const defaultMWOpts = {
     collectionPath: '/metrics',
     
-    appName: ''
+    appName: '',
+
+    escapeStatusCodes: []
 };
