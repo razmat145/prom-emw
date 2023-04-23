@@ -91,12 +91,12 @@ For more queries examples, look into PromQL https://prometheus.io/docs/prometheu
 ###### Cpu usage if `collectDefaultMetrics` is true 
 `rate(process_cpu_system_seconds_total[5m])`   
 
-![Unauthorized spike](./img/cpuUsage.png)
+![Cpu Usage](./img/cpuUsage.png)
 
 ###### Heap size if `collectDefaultMetrics` is true 
 `nodejs_heap_size_used_bytes`   
 
-![Unauthorized spike](./img/heapSize.png)
+![Heap Size](./img/heapSize.png)
 
 
 ### Configuration
