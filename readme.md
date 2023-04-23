@@ -66,17 +66,27 @@ public async initialise(port: number) {
 #### Example observations
 For more queries examples, look into PromQL https://prometheus.io/docs/prometheus/latest/querying/basics/
 
-###### Request rate over time
-![Request rate over time](./img/requestRateOverTime.png)
+###### Testing
 
-###### 90 quantile slow request timings
-![90 quantile slow request timings](./img/90quatileTimings.png)
+###### Request rate over time   
+`rate(requests_total[5m])`   
 
-###### Average request timing rate over time
-![Average request rate over time](./img/averageRequestRateOverTime.png)
+![Request rate](./img/requestRateOverTime.png)
 
-###### Noticing the Unauthorized spike via escaping 401 status codes  `escapeStatusCodes: [401]`
-![Noticing the Unauthorized spike](./img/escapingUnauthorized.png)
+###### 90 quantile slow request timings   
+`histogram_quantile(0.9, rate(request_timing_seconds_bucket[5m]))`   
+
+![90 quantile timings](./img/90quatileTimings.png)
+
+###### Average request timing rate over time   
+`sum(rate(request_timing_seconds_sum[5m])) / sum(rate(request_timing_seconds_count[5m]))`   
+
+![Average request rate](./img/averageRequestRateOverTime.png)
+
+###### Noticing the Unauthorized spike via escaping 401 status codes  `escapeStatusCodes: [401]`   
+`rate(requests_total{statusCode='401'}[10s])`   
+
+![Unauthorized spike](./img/escapingUnauthorized.png)
 
 ### Configuration
 ```typescript
