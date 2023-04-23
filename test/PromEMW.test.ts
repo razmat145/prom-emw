@@ -4,9 +4,11 @@ import { Application } from 'express';
 
 import { PromEMW } from '../src/';
 import { Recorder } from '../src/lib/prom/Recorder';
-import { defaultMWOpts } from '../src/lib/types/Opts';
+import Session from '../src/lib/util/Session';
 
 jest.mock('../src/lib/prom/Recorder');
+
+const sessionGetConfigItemSpy = jest.spyOn(Session, 'getConfigItem');
 
 const mockExpressApp = {
     use: jest.fn(),
@@ -23,8 +25,9 @@ describe('PromEMW', () => {
 
         await PromEMW.install(<Application><unknown>mockExpressApp);
 
+        expect(sessionGetConfigItemSpy).toHaveBeenCalled();
+
         expect(Recorder).toHaveBeenCalled();
-        expect(Recorder).toHaveBeenCalledWith(defaultMWOpts);
 
         expect(mockExpressApp.use).toHaveBeenCalled();
         expect(mockExpressApp.get).toHaveBeenCalled();
@@ -39,8 +42,9 @@ describe('PromEMW', () => {
 
         await PromEMW.install(<Application><unknown>mockExpressApp, mockOpts);
 
+        expect(sessionGetConfigItemSpy).toHaveBeenCalled();
+
         expect(Recorder).toHaveBeenCalled();
-        expect(Recorder).toHaveBeenCalledWith(mockOpts);
 
         expect(mockExpressApp.use).toHaveBeenCalled();
         expect(mockExpressApp.get).toHaveBeenCalled();
