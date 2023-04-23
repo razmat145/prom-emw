@@ -17,6 +17,9 @@ Currently used default labels are:
 - `method` being used
 - `statusCode` being replied
 
+##### Notes:
+- `statusCode`s are normalized by prefix, i.e. 2xx, 4xx, 5xx etc
+
 ### Installing
 
 ```
@@ -69,8 +72,11 @@ For more queries examples, look into PromQL https://prometheus.io/docs/prometheu
 ###### 90 quantile slow request timings
 ![90 quantile slow request timings](./img/90quatileTimings.png)
 
-###### Average request rate over time
+###### Average request timing rate over time
 ![Average request rate over time](./img/averageRequestRateOverTime.png)
+
+###### Noticing the Unauthorized spike via escaping 401 status codes  `escapeStatusCodes: [401]`
+![Noticing the Unauthorized spike](./img/escapingUnauthorized.png)
 
 ### Configuration
 ```typescript
@@ -80,11 +86,15 @@ interface IMWOpts {
 
     // App name to be appended to Prom metric type names
     appName?: string; // defaults to ''
+
+    // Http status codes to be escaped from normalization
+    escapeStatusCodes?: Array<number>;
 }
 ```
 
 ### TODOs
 - more config flexibility and options
+- normalize parametered paths
 - more tests
 - pm2 cluster support
 - custom metrics

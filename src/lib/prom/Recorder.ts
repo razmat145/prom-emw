@@ -3,9 +3,9 @@ import { Request, Response } from 'express';
 import { Registry, Counter, Histogram } from 'prom-client';
 
 import Extractor from './Extractor';
+import Session from '../util/Session';
 
 import { defaultLabels } from '../types/Label';
-import { IMWOpts } from '../types/Opts';
 
 
 export class Recorder {
@@ -18,8 +18,8 @@ export class Recorder {
     private timingHistogram: Histogram;
     private timingHistogramSuffix = 'request_timing_seconds';
 
-    constructor(mwOpts: IMWOpts) {
-        const { appName } = mwOpts;
+    constructor() {
+        const appName = Session.getConfigItem('appName');
 
         this.requestCounter = new Counter({
             name: this.attachBucketPrefix(this.requestCounterSuffix, appName),

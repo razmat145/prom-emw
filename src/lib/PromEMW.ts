@@ -2,8 +2,9 @@
 import { Application } from 'express';
 
 import { Recorder } from './prom/Recorder';
+import Session from './util/Session';
 
-import { IMWOpts, defaultMWOpts } from './types/Opts';
+import { IMWOpts } from './types/Opts';
 
 
 class PromEMW {
@@ -11,20 +12,17 @@ class PromEMW {
     private recorder: Recorder;
 
     public async install(app: Application, mwOpts?: IMWOpts) {
-        const opts = {
-            ...defaultMWOpts,
-            ...mwOpts
-        };
+        Session.setConfigOpts(mwOpts);
 
-        this.recorder = new Recorder(opts);
+        this.recorder = new Recorder();
 
-        this.setupExtractionMW(app, opts);
-        this.setupCollectionEndpoint(app, opts);
+        this.setupExtractionMW(app);
+        this.setupCollectionEndpoint(app);
     }
 
-    private setupExtractionMW(app: Application, mwOpts: IMWOpts = defaultMWOpts) {
+    private setupExtractionMW(app: Application) {
         app.use((req, res, next) => {
-            const { collectionPath } = mwOpts;
+            const collectionPath = Session.getConfigItem('collectionPath');
 
             const isPromCollectionRequest = req.originalUrl === collectionPath;
             if (isPromCollectionRequest) {
@@ -38,8 +36,8 @@ class PromEMW {
         });
     }
 
-    private setupCollectionEndpoint(app: Application, mwOpts: IMWOpts = defaultMWOpts) {
-        const { collectionPath } = mwOpts;
+    private setupCollectionEndpoint(app: Application) {
+        const collectionPath = Session.getConfigItem('collectionPath');
 
         app.get(collectionPath, async (req, res) => {
             return res.send(await this.recorder.getMetrics());
