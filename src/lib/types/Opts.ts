@@ -7,12 +7,16 @@ export interface IMWOpts {
     escapeStatusCodes?: Array<number>;
 
     collectDefaultMetrics?: boolean;
+
+    enableParameterNormalization?: boolean;
 }
 
 export const defaultMWOpts = {
     collectionPath: '/metrics',
-    
+
     appName: '',
 
-    escapeStatusCodes: []
+    escapeStatusCodes: [],
+
+    enableParameterNormalization: true
 };

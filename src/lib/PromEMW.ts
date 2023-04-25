@@ -1,6 +1,8 @@
 
 import { Application } from 'express';
 
+import { RouteIdrr } from 'eroute-idrr';
+
 import { Recorder } from './prom/Recorder';
 import Session from './util/Session';
 
@@ -27,6 +29,10 @@ class PromEMW {
             const isPromCollectionRequest = req.originalUrl === collectionPath;
             if (isPromCollectionRequest) {
                 return next();
+            }
+
+            if (Session.getConfigItem('enableParameterNormalization') && !RouteIdrr.isLoaded()) {
+                RouteIdrr.loadUris(app);
             }
 
             const startTime = process.hrtime();

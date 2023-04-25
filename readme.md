@@ -19,6 +19,7 @@ Currently used default labels are:
 
 ##### Notes:
 - `statusCode`s are normalized by prefix, i.e. 2xx, 4xx, 5xx etc
+- `path`s are normalized via `eroute-idrr` (https://github.com/razmat145/eroute-idrr) by reading express app routes
 
 ### Installing
 
@@ -66,8 +67,6 @@ public async initialise(port: number) {
 #### Example observations
 For more queries examples, look into PromQL https://prometheus.io/docs/prometheus/latest/querying/basics/
 
-###### Testing
-
 ###### Request rate over time   
 `rate(requests_total[5m])`   
 
@@ -98,6 +97,9 @@ For more queries examples, look into PromQL https://prometheus.io/docs/prometheu
 
 ![Heap Size](./img/heapSize.png)
 
+###### Parameters are normalized by default
+Given a path of `'/myapi/test/:myId'`, despite of being called with `myId` of `[101, 102, ... 9999]` it will get normalized to it's base
+![Param Normalization](./img/parameterNormalization.png)
 
 ### Configuration
 ```typescript
@@ -113,13 +115,14 @@ interface IMWOpts {
 
     // If to collect default NodeJS metrics see https://github.com/siimon/prom-client#default-metrics
     collectDefaultMetrics?: boolean;
+    
+    // If to enable paremeter path normalization - recommended in order to reduce `path` label dimensions
+    enableParameterNormalization?: boolean; // defaults to true
 }
 ```
 
 ### TODOs
 - more config flexibility and options
-- normalize parametered paths
-- more tests
 - pm2 cluster support
 - custom metrics
 - nodejs cluster support if desired

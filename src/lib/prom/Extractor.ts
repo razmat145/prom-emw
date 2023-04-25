@@ -1,6 +1,8 @@
 
 import { Request, Response } from 'express';
 
+import { RouteIdrr } from 'eroute-idrr';
+
 import Session from '../util/Session';
 
 import { IDefaultLabels } from '../types/Label';
@@ -14,7 +16,7 @@ class Extractor {
         const { statusCode } = res;
 
         return {
-            path: originalUrl,
+            path: RouteIdrr.getNormalizedUri(originalUrl),
             method,
             statusCode: this.extractBaseStatus(statusCode)
         };
